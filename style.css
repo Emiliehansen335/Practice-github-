@@ -48,38 +48,46 @@ a {
 /* menu bar */
  
 .fixed-menu {
-  height: 5vw;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: clamp(48px, 5vw, 72px);
   background: rgb(0, 0, 0, 0.5);
   position: fixed;
 }
  
 .container-menu {
   display: grid;
-  grid-template-columns: 11.5vw 10vw 7vw 71.5vw;
-  grid-template-areas: ". logo shop burger";
+  height: 100%;
+  padding: 0 clamp(16px, 4vw, 48px);
+  align-items: center;
+  grid-template-columns: auto 1fr auto auto;
+  grid-template-areas: "logo . shop burger";
+  column-gap: clamp(12px, 2vw, 24px);
 }
  
 .logo {
-  margin-left: 0;
-  margin-top: 0.7vw;
   grid-area: logo;
-  width: clamp(40px, 5.5vw, 55.5vw);
+  width: clamp(40px, 5.5vw, 72px);
+}
+
+.logo img {
+  display: block;
+  width: 100%;
   height: auto;
 }
  
 .shop-menu {
-  margin-left: 0;
-  margin-top: 1.1vw;
   grid-area: shop;
-  font-size: clamp(22px, 2.5vw, 2.5vw);
+  font-size: clamp(18px, 2.5vw, 28px);
   color: white;
 }
  
 .burger {
-  margin-left: 0;
-  margin-top: 1.8vw;
   grid-area: burger;
-  width: clamp(22px, 2.7vw, 2.7vw);
+  justify-self: end;
+  width: clamp(22px, 2.7vw, 30px);
   height: auto;
 }
  
@@ -88,7 +96,8 @@ a {
 header {
   background: url("/images/cover.jpg") rgba(0, 0, 0, 0.3);
   background-blend-mode: darken;
-  background-size: 100%;
+  background-size: cover;
+  background-position: center;
   height: 30.05vw;
 }
  
@@ -100,15 +109,15 @@ header {
  
 .slogan {
   text-align: center;
-  font-size: 1.5vw;
+  font-size: clamp(14px, 1.5vw, 20px);
   font-weight: 500;
-  line-height: 0.8vw;
+  line-height: 1.2;
 }
  
 /* Navnetræk og adresse under coveret */
  
 .top-adress {
-  padding: 5vw 0;
+  padding: clamp(28px, 5vw, 64px) 16px;
   text-align: center;
   font-size: clamp(12px, 1.7vw, 36px);
 }
@@ -116,11 +125,11 @@ header {
 /* Her defineres bredden for content */
  
 .container-cards {
-  max-width: 76%;
+  width: min(88%, 1200px);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  grid-column-gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  grid-column-gap: clamp(16px, 3vw, 40px);
   grid-row-gap: clamp(40px, 4vw, 60px);
 }
  
@@ -133,15 +142,16 @@ header {
 }
  
 .card img {
+  display: block;
   border-radius: 20px 20px 0 0;
-  max-width: 100%;
+  width: 100%;
   height: auto;
 }
  
 .lightgrey {
   display: grid;
   place-content: center;
-  height: clamp(50px 4.5vw, 80px);
+  min-height: clamp(50px, 4.5vw, 80px);
 }
 .darkgrey {
   display: grid;
@@ -165,7 +175,7 @@ footer {
 .footer-map {
   grid-area: map;
   border: 0;
-  max-width: 100%;
+  width: 100%;
   height: 35vw;
 }
  
@@ -186,10 +196,12 @@ footer {
 .footer-address-open {
   margin-top: 20px;
   display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
  
 .address {
-  margin-right: 40px;
+  margin-right: 20px;
 }
  
 .some {
@@ -200,10 +212,19 @@ footer {
 /* max 950 pixels */
  
 @media (max-width: 960px) {
+  header {
+    height: 42vw;
+    min-height: 300px;
+  }
+
   .slogan {
     display: none;
   }
  
+  .container-cards {
+    width: 90%;
+  }
+
   footer {
     grid-template-columns: 100%;
     grid-template-areas:
@@ -211,36 +232,67 @@ footer {
       "map";
   }
  
-  .footer-info {
+  .footer > .info {
     margin-bottom: 40px;
+  }
+
+  .footer-map {
+    height: 48vw;
+    min-height: 280px;
   }
 }
  
 /* max 767 pixels */
  
 @media (max-width: 767px) {
-  .fixed-menu {
-    height: 35px;
+  h1 {
+    font-size: clamp(40px, 10vw, 72px);
+  }
+
+  h2 {
+    font-size: clamp(28px, 6vw, 40px);
+  }
+
+  .container-cards {
+    grid-template-columns: 1fr;
+    row-gap: 24px;
   }
  
-  .container-menu {
-    grid-template-columns: 10px 60px 55px 1fr;
-  }
- 
-  .burger {
-    width: 22px;
-    margin-top: 12px;
+  .footer-address-open {
+    gap: 16px;
   }
  
   .footer-container {
-    margin: 8vw 4vw;
+    margin: 32px 5vw;
+  }
+
+  .footer-map {
+    height: 60vw;
+    min-height: 240px;
+  }
+
+  .bottom-line {
+    min-height: 44px;
+    height: auto;
+    padding: 12px;
+    text-align: center;
   }
 }
 @media (max-width: 425px) {
-  .container-cards {
-    margin-left: 15px;
-    margin-right: 15px;
-    max-width: 100%;
+  .top-adress {
+    line-height: 1.5;
+  }
+
+  .footer-address-open {
+    flex-direction: column;
+  }
+
+  .address {
+    margin-right: 0;
+  }
+
+  .some {
+    margin-top: 0;
   }
 }
  
