@@ -52,22 +52,28 @@ a {
   left: 0;
   z-index: 10;
   width: 100%;
+  /* clamp(minimum, ønsket størrelse, maksimum) holder højden responsiv inden for grænserne. */
   height: clamp(48px, 5vw, 72px);
   background: rgb(0, 0, 0, 0.5);
   position: fixed;
 }
  
 .container-menu {
+  /* Grid deler menuen op i kolonner; 1fr fylder den resterende plads. */
   display: grid;
   height: 100%;
   padding: 0 clamp(16px, 4vw, 48px);
+  /* align-items centrerer indholdet lodret i grid-rækken. */
   align-items: center;
   grid-template-columns: auto 1fr auto auto;
+  /* Navngivne områder placerer elementerne; punktummet er en tom plads. */
   grid-template-areas: "logo . shop burger";
+  /* Afstand mellem grid-kolonnerne, som også skalerer med skærmen. */
   column-gap: clamp(12px, 2vw, 24px);
 }
  
 .logo {
+  /* Knytter logoet til området med samme navn i grid-template-areas. */
   grid-area: logo;
   width: clamp(40px, 5.5vw, 72px);
 }
@@ -80,12 +86,14 @@ a {
  
 .shop-menu {
   grid-area: shop;
+  /* Skriftstørrelsen vokser med skærmen, men har en minimums- og maksimumsstørrelse. */
   font-size: clamp(18px, 2.5vw, 28px);
   color: white;
 }
  
 .burger {
   grid-area: burger;
+  /* Justerer dette enkelte element til højre i sin grid-celle. */
   justify-self: end;
   width: clamp(22px, 2.7vw, 30px);
   height: auto;
@@ -103,6 +111,7 @@ header {
  
 .cover-text {
   display: grid;
+  /* Centrerer indholdet både vandret og lodret i grid-containeren. */
   place-content: center;
   color: white;
 }
@@ -128,7 +137,10 @@ header {
   width: min(88%, 1200px);
   margin: 0 auto;
   display: grid;
+  /* repeat(auto-fit, ...) laver så mange kolonner som muligt.
+     minmax() sætter deres minimum; 1fr deler den ledige plads ligeligt. */
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  /* clamp holder mellemrummene responsive uden at lade dem blive for små eller store. */
   grid-column-gap: clamp(16px, 3vw, 40px);
   grid-row-gap: clamp(40px, 4vw, 60px);
 }
@@ -150,6 +162,7 @@ header {
  
 .lightgrey {
   display: grid;
+  /* Centrerer overskriften i kortets grid-område. */
   place-content: center;
   min-height: clamp(50px, 4.5vw, 80px);
 }
@@ -168,6 +181,7 @@ footer {
   margin-top: 12vw;
   background-color: #ccc;
   display: grid;
+  /* To lige brede kolonner med navngivne områder til kort og tekst. */
   grid-template-columns: 50% 50%;
   grid-template-areas: "map info";
 }
@@ -209,41 +223,45 @@ footer {
   display: flex;
 }
  
-/* max 950 pixels */
- 
+/* Tablet: lavere cover, smallere kort og footer i én kolonne. */
 @media (max-width: 960px) {
   header {
     height: 42vw;
     min-height: 300px;
   }
 
+  /* Skjul sloganet, så coveret ikke bliver overfyldt på mindre skærme. */
   .slogan {
     display: none;
   }
  
+  /* Giv kortene mere plads på tablet. */
   .container-cards {
     width: 90%;
   }
 
+  /* Placér kortinfo over kortet på tablet og mobil. */
   footer {
+    /* Én kolonne; grid-områderne vises i rækkefølgen info og derefter kort. */
     grid-template-columns: 100%;
     grid-template-areas:
       "info"
       "map";
   }
  
+  /* Adskil footerens tekst fra kortet. */
   .footer > .info {
     margin-bottom: 40px;
   }
 
+  /* Sørg for, at kortet stadig har en brugbar højde. */
   .footer-map {
     height: 48vw;
     min-height: 280px;
   }
 }
  
-/* max 767 pixels */
- 
+/* Mobil: skaler overskrifterne, og vis ét produktkort pr. række. */
 @media (max-width: 767px) {
   h1 {
     font-size: clamp(40px, 10vw, 72px);
@@ -253,24 +271,31 @@ footer {
     font-size: clamp(28px, 6vw, 40px);
   }
 
+  /* Undgå smalle kort og reducer afstanden mellem dem. */
   .container-cards {
+    /* 1fr betyder én kolonne, der fylder hele den tilgængelige bredde. */
     grid-template-columns: 1fr;
+    /* row-gap er afstanden mellem kortenes grid-rækker. */
     row-gap: 24px;
   }
  
+  /* Giv footerens kontaktoplysninger mere fleksibel afstand. */
   .footer-address-open {
     gap: 16px;
   }
  
+  /* Brug mindre sidemargener i footer på mobil. */
   .footer-container {
     margin: 32px 5vw;
   }
 
+  /* Tilpas kortets højde til mobilskærmens bredde. */
   .footer-map {
     height: 60vw;
     min-height: 240px;
   }
 
+  /* Lad copyright-teksten fylde flere linjer, hvis der er behov. */
   .bottom-line {
     min-height: 44px;
     height: auto;
@@ -278,6 +303,8 @@ footer {
     text-align: center;
   }
 }
+
+/* Smalle mobiler: stabl footeroplysninger for at undgå sammenpresning. */
 @media (max-width: 425px) {
   .top-adress {
     line-height: 1.5;
